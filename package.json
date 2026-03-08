@@ -95,6 +95,7 @@
     }
   },
   "dependencies": {
+    "@electron-fonts/roboto": "^1.2.0",
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
     "@grpc/grpc-js": "^1.10.0",

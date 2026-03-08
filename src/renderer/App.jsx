@@ -6,12 +6,13 @@ import {
   applyNodeChanges,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import './Styles/index.css';
+import './App.css';
  
 import ComposedNode from './components/Composed';
 import CodeNode from './components/Code';
 import InputNode from './components/Input';
 import OutputNode from './components/Output';
+import Button from './components/Button';
  
 const rfStyle = {
   backgroundColor: '#B8CEFF',
@@ -102,13 +103,27 @@ function Flow() {
   const [edges, setEdges] = useState(initialEdges);
  
   return (
-    <ReactFlow
-      nodes={nodes}
-      edges={edges}
-      nodeTypes={nodeTypes}
-      fitView
-      style={rfStyle}
-    />
+    <div className= "parent-flex-box">
+      <div className = "header-container">
+        <p>test</p>
+      </div>
+       <div className = "parent-grid-container">
+        <div className = "side-panel">
+          <Button onClick = {() => {
+            console.log("hi");
+          }} className = "primary-button" buttonText = "hi"/>
+        </div>
+        <div className = "canvas">
+          <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          nodeTypes={nodeTypes}
+          fitView
+          style={rfStyle}
+        />
+        </div>
+      </div>
+    </div>
   );
 }
  
