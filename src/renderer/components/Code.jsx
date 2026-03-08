@@ -10,7 +10,7 @@ function CodeNode(props) {
                 <Handle type="target" position={Position.Left} id={node.name} style={(() => {inputHandleStyle.top += 10; return structuredClone(inputHandleStyle);})()} />
             )}
             {props.data.global_blocks[props.data.label].outputs.map(node => 
-                <Handle type="target" position={Position.Right} id={node.name} style={(() => {outputHandleStyle.top += 10; return structuredClone(outputHandleStyle);})()} />
+                <Handle type="source" position={Position.Right} id={node.name} style={(() => {outputHandleStyle.top += 10; return structuredClone(outputHandleStyle);})()} />
             )}
         </div>
     );

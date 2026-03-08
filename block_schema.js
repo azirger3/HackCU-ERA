@@ -54,6 +54,12 @@ let composed_block = {
                 position: { x: 150, y: 10 },
                 data: { value: "sum" },
             },
+            {
+                id: "11",
+                type: "composed",
+                position: { x: 150, y: 10 },
+                data: { value: "sum_comped" },
+            },
         ],
         initialEdges: [
             { id: 'edge-1', source: '12', target: '10', sourceHandle: 'a', targetHandle: 'c' },
@@ -61,6 +67,8 @@ let composed_block = {
         ]
     }
 }
+
+let blocks = [code_block, composed_block];
 
 let input_block1 = {
     id: "12",

@@ -53,30 +53,30 @@ let sum_block = {
 
 const initialNodes = [
   {
-    id: 'node-1',
+    id: '1',
     type: 'composed',
     position: { x: 100, y: 0 },
     data: { label: "sum3", global_blocks: blocks },
   },
   {
-    id: 'node-2',
+    id: '2',
     type: 'output',
     targetPosition: 'top',
     position: { x: 0, y: 200 },
-    data: { label: 'node 2', global_blocks: blocks },
+    data: { label: '2', global_blocks: blocks },
   },
   {
-    id: 'node-3',
+    id: '3',
     type: 'output',
     targetPosition: 'top',
     position: { x: 200, y: 200 },
-    data: { label: 'node 3', global_blocks: blocks },
+    data: { label: '3', global_blocks: blocks },
   },
 ];
  
 const initialEdges = [
-  { id: 'edge-1', source: 'node-1', target: 'node-2', sourceHandle: 'node 2', targetHandle: "outputTarget"},
-  { id: 'edge-2', source: 'node-1', target: 'node-3', sourceHandle: 'node 3', targetHandle: "outputTarget"},
+  { id: 'edge-1', source: '1', target: '2', sourceHandle: '2', targetHandle: "outputTarget"},
+  { id: 'edge-2', source: '1', target: '3', sourceHandle: '3', targetHandle: "outputTarget"},
 ];
  
 let composed_block = {
