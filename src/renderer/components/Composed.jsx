@@ -6,10 +6,10 @@ function ComposedNode(props) {
     let inputHandleStyle = { top: 40 };
     let outputHandleStyle = { top: 40 };
 
-    const global_blocks = useContext(GlobalBlocksContext);
+    const {global_blocks, setActiveBlock} = useContext(GlobalBlocksContext);
 
     return (
-        <div className="composed">
+        <div className="composed" onDoubleClick={() => setActiveBlock(props.data.label)}>
             <div> {props.data.label} </div>
             {global_blocks[props.data.label].react_flow.initialNodes.map(node => 
                 node.type === "input" ?

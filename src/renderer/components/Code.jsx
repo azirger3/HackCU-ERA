@@ -6,7 +6,7 @@ function CodeNode(props) {
     let inputHandleStyle = { top: 40 };
     let outputHandleStyle = { top: 40 };
 
-    const global_blocks = useContext(GlobalBlocksContext);
+    const {global_blocks, setActiveBlock} = useContext(GlobalBlocksContext);
 
     return (
         <div className="code">

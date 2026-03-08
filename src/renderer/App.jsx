@@ -115,7 +115,7 @@ initialBlocks["test_composed"] = composed_block2;
 // you could also use useMemo inside the component
 const nodeTypes = { composed: ComposedNode, code: CodeNode, input: InputNode, output: OutputNode };
  
-export const GlobalBlocksContext = createContext(null);
+export const GlobalBlocksContext = createContext({global_blocks: null, setGlobalBlocks: null, activeBlock: null, setActiveBlock: null});
 
 const DEFAULT_BLOCK_NAME = "sum3";
 
@@ -181,10 +181,9 @@ function Flow() {
   });
 
   const addNodeCounted = (node_callback) => {
-    
     setBlocks((blocks) => {
       const num_nodes = blocks[activeBlock].react_flow.initialNodes.length;
-      applyNewNode(blocks, node_callback(num_nodes));
+      return applyNewNode(blocks, node_callback(num_nodes));
     });
   }
 
@@ -242,7 +241,7 @@ function Flow() {
               </div>
             </div>
             <div className = "canvas">
-              <GlobalBlocksContext.Provider value={blocks}>
+              <GlobalBlocksContext.Provider value={{global_blocks: blocks, setGlobalBlocks: setBlocks, activeBlock: activeBlock, setActiveBlock: setActiveBlock}}>
                   <ReactFlow
                     nodes={blocks[activeBlock].react_flow.initialNodes}
                     onNodesChange={onNodesChange}
