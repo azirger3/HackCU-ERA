@@ -8,9 +8,9 @@ function ComposedNode(props) {
             <div> {props.data.label} </div>
             {props.data.global_blocks[props.data.label].react_flow.initialNodes.map(node => 
                 node.type === "input" ?
-                    <Handle type="target" position={Position.Left} id={node.data.label} style={(() => {inputHandleStyle.top += 10; return structuredClone(inputHandleStyle);})()} /> :
+                    <Handle key={node.id} type="target" position={Position.Left} id={node.data.label} style={(() => {inputHandleStyle.top += 10; return structuredClone(inputHandleStyle);})()} /> :
                     node.type === "output" ?
-                        <Handle type="source" position={Position.Right} id={node.data.label} style={(() => {outputHandleStyle.top += 10; return structuredClone(outputHandleStyle);})()} /> :
+                        <Handle key={node.id} type="source" position={Position.Right} id={node.data.label} style={(() => {outputHandleStyle.top += 10; return structuredClone(outputHandleStyle);})()} /> :
                         null
             )}
         </div>
