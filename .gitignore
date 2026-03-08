@@ -1,3 +1,4 @@
 node_modules/*
 .env
 release/app/node_modules/*
+out/*

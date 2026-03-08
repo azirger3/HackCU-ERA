@@ -20,6 +20,8 @@ import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import makeAPICall from './API/API';
 import getPromptFromCodeBlock from './API/GetPrompt';
+import WriteToFile from './API/WriteToFile';
+import ParseOutput from './API/ParseOutput';
 
 const rfStyle = {
   backgroundColor: '#B8CEFF',
@@ -287,5 +289,14 @@ function Flow() {
 }
 
 console.log(getPromptFromCodeBlock(sum_block));
+WriteToFile("temp.txt", "check this out\n");
+const code_in = `import os
+print("Hello")
+import numpy as np
+import os
+from math import sqrt
+print("World")
+import numpy as np`;
+console.log(ParseOutput(code_in));
 
 export default Flow;

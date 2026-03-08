@@ -18,20 +18,20 @@ import fs from 'fs';
 
 require('dotenv').config();
 
-// interface to_write {
-//   file_name: string;
-//   content: string;
-// }
+interface to_write {
+  file_name: string;
+  content: string;
+}
 
-// ipcMain.handle('write_to_file', async (event, data: to_write) => {
-//   const file_path = path.join(app.getPath('userData'), data.file_name);
-//   try {
-//     fs.writeFileSync(file_path, data.content);
-//     return { success: true };
-//   } catch (err) {
-//     return { success: false, error: (err as Error).message };
-//   }
-// });
+ipcMain.handle('write-to-file', async (event, data: to_write) => {
+  const file_path = path.join(app.getAppPath(), "out/", data.file_name);
+  try {
+    fs.writeFileSync(file_path, data.content);
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: (err as Error).message };
+  }
+});
 
 class AppUpdater {
   constructor() {
