@@ -1,0 +1,5 @@
+.list-block-container{
+    background-color: var(--foreground);
+    border-radius: 20px;
+    border: 2px solid var(--border-grey);
+}
