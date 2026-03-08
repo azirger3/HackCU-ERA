@@ -11,12 +11,40 @@
     padding: 5px 10px 5px 10px;
 }
 
+.input-list-block{
+    background-color: var(--foreground);
+    border-radius: 10px;
+    border: 1px solid var(--border-grey);
+    padding: 5px 10px 5px 10px;
+    margin-bottom: 1em;
+}
+
+.output-list-block{
+    background-color: var(--foreground);
+    border-radius: 10px;
+    border: 1px solid var(--border-grey);
+    padding: 5px 10px 5px 10px;
+    margin-bottom: 0.2em;
+}
+
 .composed-list-block:hover{
     background-color: var(--composed-background);
     border: 1px solid var(--composed-outline);
     cursor: pointer;
 }
 .code-list-block:hover{
+    background-color: var(--code-background);
+    border: 1px solid var(--code-outline);
+    cursor: pointer;
+}
+
+.input-list-block:hover{
+    background-color: var(--code-background);
+    border: 1px solid var(--code-outline);
+    cursor: pointer;
+}
+
+.output-list-block:hover{
     background-color: var(--code-background);
     border: 1px solid var(--code-outline);
     cursor: pointer;

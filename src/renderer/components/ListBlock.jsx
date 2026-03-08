@@ -16,7 +16,23 @@ export default function ListBlock({block, addNode}){
                 position: position,
                 data: { label: block.name }
             }));
+        } else if (block.type === "input") {
+            addNode((num_nodes) => ({
+                id: `${num_nodes + 1}`,
+                type: "input",
+                position: position,
+                data: { label: `Input ${num_nodes + 1}` },
+            }));
+        } else if (block.type === "output") {
+            addNode((num_nodes) => ({
+                id: `${num_nodes + 1}`,
+                type: "output",
+                position: position,
+                data: { label: `Output ${num_nodes + 1}` },
+            }));
         }
+
+        return false;
     };
 
     return(

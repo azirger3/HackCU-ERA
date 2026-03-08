@@ -28,7 +28,7 @@ const rfStyle = {
 let initialBlocks = {};
 
 let sum_block = {
-  id: "10",
+  id: "test-4",
   type: "code",
   block_id: 1,
   name: "sum",
@@ -88,7 +88,7 @@ const initialEdges = [
 ];
  
 let composed_block = {
-  id: "11",
+  id: "test-2",
   type: "composed",
   block_id: 2,
   name: "sum3",
@@ -169,35 +169,9 @@ function Flow() {
     }
   });
 
-  const addNode = (node) => {
-    setBlocks((blocks) => applyNewNode(blocks, node));
-  };
-
   const addNodeCounted = (node_callback) => {
     const num_nodes = blocks[DEFAULT_BLOCK_NAME].react_flow.initialNodes.length;
     setBlocks((blocks) => applyNewNode(blocks, node_callback(num_nodes)));
-  }
-
-  const newInput = () => {
-    let id = `${blocks[DEFAULT_BLOCK_NAME].react_flow.initialNodes.length + 1}`;
-    const newNode = {
-      id: id,
-      type: "input",
-      position: { x: 200, y: 200 },
-      data: { label: `Input ${id}` },
-    };
-    addNode(newNode);
-  };
-
-  const newOutput = () => {
-    let id = `${blocks[DEFAULT_BLOCK_NAME].react_flow.initialNodes.length + 1}`;
-    const newNode = {
-      id: id,
-      type: "output",
-      position: { x: 200, y: 200 },
-      data: { label: `Output ${id}` },
-    };
-    addNode(newNode);
   }
 
   const codeBlocksList = Object.entries(blocks).filter(([, block]) => block.type === 'code');
@@ -230,9 +204,11 @@ function Flow() {
           <div className = "side-panel">
             <Button onClick={openModal} className = "primary-button" buttonText = "New Code Block"/>
 
-              <Button onClick={newInput} className = "primary-button" buttonText = "Add Input"/>
-
-              <Button onClick={newOutput} className = "primary-button" buttonText = "Add Output"/>
+              <div className = "list-container">
+                <h3 className = "label-title">Input & Output</h3>
+                <ListBlock block={{type: "input", name:"New Input"}} addNode={addNodeCounted}/>
+                <ListBlock block={{type: "output", name:"New Output"}} addNode={addNodeCounted}/>
+              </div>
 
               <div className = "list-container">
                 <h3 className = "label-title">Compose Blocks</h3>
