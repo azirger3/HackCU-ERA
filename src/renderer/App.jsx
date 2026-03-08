@@ -343,12 +343,14 @@ function Flow() {
                       <input key={index + "N"} className="modal-input" placeholder="Name" value={blocks[activeCode].inputs[index].name} onChange={(e) => setBlocks((b) => {
                         const newB = JSON.parse(JSON.stringify(b));
                         newB[activeCode].inputs[index].name = e.target.value;
+                        newB[activeCode].gen_code = "";
                         e.preventDefault();
                         return newB;
                       })}/>
                       <input key={index + "d"} className="modal-input" placeholder="Description" value={blocks[activeCode].inputs[index].description} onChange={(e) => setBlocks((b) => {
                         const newB = JSON.parse(JSON.stringify(b));
                         newB[activeCode].inputs[index].description = e.target.value;
+                        newB[activeCode].gen_code = "";
                         e.preventDefault();
                         return newB;
                       })}/>
@@ -366,12 +368,14 @@ function Flow() {
                       <input key={index + "n"} className="modal-input" placeholder="Name" value={blocks[activeCode].outputs[index].name} onChange={(e) => setBlocks((b) => {
                         const newB = JSON.parse(JSON.stringify(b));
                         newB[activeCode].outputs[index].name = e.target.value;
+                        newB[activeCode].gen_code = "";
                         e.preventDefault();
                         return newB;
                       })}/>
                       <input key={index + "d"} className="modal-input" placeholder="Description" value={blocks[activeCode].outputs[index].description} onChange={(e) => setBlocks((b) => {
                         const newB = JSON.parse(JSON.stringify(b));
                         newB[activeCode].outputs[index].description = e.target.value;
+                        newB[activeCode].gen_code = "";
                         e.preventDefault();
                         return newB;
                       })}/>
@@ -386,7 +390,7 @@ function Flow() {
 
         
               <h3 className="modal-section-title">Generation Instructions</h3>
-              <textarea className="modal-textarea" placeholder="Generation Instructions" value={blocks[activeCode].ai_description} onChange={(e) => setBlocks((b) => ({...b, [activeCode]: {...b[activeCode], ai_description: e.target.value}}))}/>
+              <textarea className="modal-textarea" placeholder="Generation Instructions" value={blocks[activeCode].ai_description} onChange={(e) => setBlocks((b) => ({...b, [activeCode]: {...b[activeCode], ai_description: e.target.value, gen_code: ""}}))}/>
 
             
               <h3 className="modal-section-title">Test Cases</h3>
