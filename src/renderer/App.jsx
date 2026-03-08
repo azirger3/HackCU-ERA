@@ -159,12 +159,16 @@ function Flow() {
         </div>
         <div className = "canvas">
           <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          nodeTypes={nodeTypes}
-          fitView
-          style={rfStyle}
-        />
+            nodes={blocks[DEFAULT_BLOCK_NAME].react_flow.initialNodes}
+            onNodesChange={onNodesChange}
+            edges={blocks[DEFAULT_BLOCK_NAME].react_flow.initialEdges}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            nodeTypes={nodeTypes}
+            deleteKeyCode={["Backspace", "Delete"]}
+            fitView
+            style={rfStyle}
+          />
         </div>
       </div>
     </div>
