@@ -94,7 +94,7 @@ body p, h1, h2, h3{
   font-size: 12px;
 }
  
-.input {
+/* .input {
   height: 50px;
   border: 1px solid #eee;
   padding: 5px;
@@ -120,6 +120,64 @@ body p, h1, h2, h3{
   display: block;
   color: #777;
   font-size: 12px;
+} */
+
+.input {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid #eee;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+}
+ 
+.input label {
+  display: block;
+  color: #777;
+  font-size: 12px;
+}
+ 
+.output {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid #eee;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+}
+ 
+.output label {
+  display: block;
+  color: #777;
+  font-size: 12px;
+}
+
+.react-flow__node-input.nopan {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  width: fit-content;
+  height: fit-content;
+}
+
+.react-flow__node-output.nopan {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  width: fit-content;
+  height: fit-content;
 }
 
 .new-block-form{

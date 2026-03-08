@@ -102,4 +102,4 @@ const electronHandler: ElectronHandler = {
 
 contextBridge.exposeInMainWorld('electron', electronHandler);
 contextBridge.exposeInMainWorld('env', {GEMINI_API_KEY: process.env.GEMINI_API_KEY});
-contextBridge.exposeInMainWorld('write_to_file', {saveFile: (file_name: string, content: string) => ipcRenderer.invoke('write_to_file', {file_name, content})});
+// contextBridge.exposeInMainWorld('write_to_file', {saveFile: (file_name: string, content: string) => ipcRenderer.invoke('write_to_file', {file_name, content})});
