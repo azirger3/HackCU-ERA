@@ -122,6 +122,7 @@ const DEFAULT_BLOCK_NAME = "sum3";
 function Flow() {
   const [blocks, setBlocks] = useState(initialBlocks);
   const [activeBlock, setActiveBlock] = useState(DEFAULT_BLOCK_NAME);
+  const [activeCode, setActiveCode] = useState(null);
 
   // Node and edge change callbacks
   const onNodesChange = useCallback(
@@ -201,7 +202,7 @@ function Flow() {
   }
 
   function closeModal() {
-    setIsOpen(false);
+    setActiveCode(null);
   }
   function generateBlock() {
     console.log("hello!");
@@ -223,8 +224,10 @@ function Flow() {
 
               <div className = "list-container">
                 <h3 className = "label-title">Input & Output</h3>
-                <ListBlock block={{type: "input", name:"New Input"}} addNode={addNodeCounted} setActiveBlock={() => {}}/>
-                <ListBlock block={{type: "output", name:"New Output"}} addNode={addNodeCounted} setActiveBlock={() => {}}/>
+                <div className = "io-row">
+                  <ListBlock block={{type: "input", name:"New Input"}} addNode={addNodeCounted} setActiveBlock={() => {}}/>
+                  <ListBlock block={{type: "output", name:"New Output"}} addNode={addNodeCounted} setActiveBlock={() => {}}/>
+                </div>
               </div>
 
               <div className = "list-container">
@@ -258,22 +261,54 @@ function Flow() {
               </GlobalBlocksContext.Provider>
             </div>
           </div>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        contentLabel="New Code Block"
-        className = "new-block-form"
-      >
-        <h2>New Code Block</h2>
+          <Modal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          contentLabel="New Code Block"
+          className="new-block-form"
+          overlayClassName="new-block-overlay"
+        >
+          <div className="modal-header">
+            <span className="material-symbols-rounded" onClick={closeModal}>close</span>
+            <Button type="button" onClick={handleSubmit} className="primary-button" buttonText="Save"/>
+          </div>
+          <input className="modal-input" placeholder="Block Name"/>
+          <div className = "code-form">
+            <div className="modal-io-row">
+              <div className="modal-io-col">
+                <h3 className="modal-section-title">Inputs</h3>
+                <input className="modal-input" placeholder="Hello Words"/>
+                <span className="material-symbols-rounded">add</span>
+              </div>
+              <div className="modal-io-col">
+                <h3 className="modal-section-title">Outputs</h3>
+                <input className="modal-input" placeholder="Hello Words"/>
+                <span className="material-symbols-rounded">add</span>
+              </div>
+            </div>
 
-        <form onSubmit={(e) => {
-          e.preventDefault(); 
-          handleSubmit();
-        }}>
-          <Button type="submit" className = "primary-button" buttonText = "Create"/>
-          <Button type="button" onClick={closeModal} className = "primary-button" buttonText = "Cancel"/>
-        </form>
-      </Modal>
+      
+            <h3 className="modal-section-title">Generation Instructions</h3>
+            <textarea className="modal-textarea" placeholder="Hello Words"/>
+
+          
+            <h3 className="modal-section-title">Test Cases</h3>
+            <div className="modal-io-col">
+              <div className="modal-io-row">
+                <div className="modal-io-col">
+                  <p className="modal-io-label">Input</p>
+                  <input className="modal-input" placeholder="Hello Words"/>
+                </div>
+                <div className="modal-io-col">
+                  <p className="modal-io-label">Output</p>
+                  <input className="modal-input" placeholder="Hello Words"/>
+                </div>
+              </div>
+              <span className="material-symbols-rounded">add</span>
+            </div>
+
+          </div>
+        </Modal>
       </div>
     </ReactFlowProvider>
   );

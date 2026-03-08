@@ -1,53 +1,55 @@
 .composed-list-block{
-    background-color: var(--foreground);
+    background-color: var(--composed-background);
     border-radius: 10px;
-    border: 1px solid var(--border-grey);
+    border: 1px solid var(--composed-outline);
     padding: 5px 10px 5px 10px;
     margin-bottom: 1em;
 }
 .code-list-block{
-    background-color: var(--foreground);
+    background-color: var(--code-background);
     border-radius: 10px;
-    border: 1px solid var(--border-grey);
+    border: 1px solid var(--code-outline);
     padding: 5px 10px 5px 10px;
     margin-bottom: 1em;
 }
 
 .input-list-block{
-    background-color: var(--foreground);
+     background-color: var(--io-background);
     border-radius: 10px;
-    border: 1px solid var(--border-grey);
+    border: 1px solid var(--io-outline);
     padding: 5px 10px 5px 10px;
-    margin-bottom: 1em;
+    margin-bottom: 0.2em;
+    width:auto;
 }
 
 .output-list-block{
-    background-color: var(--foreground);
+    background-color: var(--io-background);
     border-radius: 10px;
-    border: 1px solid var(--border-grey);
+    border: 1px solid var(--io-outline);
     padding: 5px 10px 5px 10px;
-    margin-bottom: 1em;
+    margin-bottom: 0.2em;
+    width:auto;
 }
 
 .composed-list-block:hover{
-    background-color: var(--composed-background);
+    background-color: var(--composed-background-hover);
     border: 1px solid var(--composed-outline);
     cursor: pointer;
 }
 .code-list-block:hover{
-    background-color: var(--code-background);
+    background-color: var(--code-background-hover);
     border: 1px solid var(--code-outline);
     cursor: pointer;
 }
 
 .input-list-block:hover{
-    background-color: var(--code-background);
-    border: 1px solid var(--code-outline);
+    background-color: var(--io-background-hover);
+    border: 1px solid var(--io-outline);
     cursor: pointer;
 }
 
 .output-list-block:hover{
-    background-color: var(--code-background);
-    border: 1px solid var(--code-outline);
+    background-color: var(--io-background-hover);
+    border: 1px solid var(--io-outline);
     cursor: pointer;
 }
