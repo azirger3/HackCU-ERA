@@ -157,8 +157,8 @@ function Flow() {
           <Button onClick = {() => {
             console.log("hi");
           }} className = "primary-button" buttonText = "hi"/>
-          {Object.entries(blocks).map((title, block) => 
-            <ListBlock key={title} blocks={blocks} title={title}/>
+          {Object.entries(blocks).map(([title, block]) => 
+            <ListBlock key={title} block={blocks[title]}/>
           )}
         </div>
         <div className = "canvas">
