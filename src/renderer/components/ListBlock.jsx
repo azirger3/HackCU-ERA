@@ -1,7 +1,7 @@
 import '../Styles/ListBlock.css'
 import {useReactFlow} from "@xyflow/react";
 
-export default function ListBlock({block, addNode}){
+export default function ListBlock({block, addNode, setActiveBlock}){
     const { screenToFlowPosition } = useReactFlow();
 
     const onAdd = (event) => {
@@ -36,7 +36,7 @@ export default function ListBlock({block, addNode}){
     };
 
     return(
-       <div className = {block.type + "-list-block"} draggable={true} onDragEnd={onAdd}>
+       <div className = {block.type + "-list-block"} draggable={true} onDragEnd={onAdd} onDoubleClick={() => {setActiveBlock(block.name); }}>
             <p>{block.name}</p>
        </div> 
     );

@@ -12,10 +12,10 @@ function CodeNode(props) {
         <div className="code">
             <div> {props.data.label} </div>
             {global_blocks[props.data.label].inputs.map(node => 
-                <Handle key={node.id} type="target" position={Position.Left} id={node.name} style={(() => {inputHandleStyle.top += 10; return structuredClone(inputHandleStyle);})()} />
+                <Handle key={node.name} type="target" position={Position.Left} id={node.name} style={(() => {inputHandleStyle.top += 30; return structuredClone(inputHandleStyle);})()} >{node.name}</Handle>
             )}
             {global_blocks[props.data.label].outputs.map(node => 
-                <Handle key={node.id} type="source" position={Position.Right} id={node.name} style={(() => {outputHandleStyle.top += 10; return structuredClone(outputHandleStyle);})()} />
+                <Handle key={node.name} type="source" position={Position.Right} id={node.name} style={(() => {outputHandleStyle.top += 30; return structuredClone(outputHandleStyle);})()} >{node.name}</Handle>
             )}
         </div>
     );

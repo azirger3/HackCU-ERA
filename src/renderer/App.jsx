@@ -30,7 +30,6 @@ let initialBlocks = {};
 let sum_block = {
   id: "test-4",
   type: "code",
-  block_id: 1,
   name: "sum",
   inputs: [
       {
@@ -98,8 +97,19 @@ let composed_block = {
   }
 };
 
+let composed_block2 = {
+  type: "composed",
+  name: "test_composed",
+  react_flow: {
+      initialNodes: [],
+      initialEdges: []
+  }
+};
+
+
 initialBlocks["sum"] = sum_block;
 initialBlocks["sum3"] = composed_block;
+initialBlocks["test_composed"] = composed_block2;
 
 // we define the nodeTypes outside of the component to prevent re-renderings
 // you could also use useMemo inside the component
@@ -111,58 +121,59 @@ const DEFAULT_BLOCK_NAME = "sum3";
 
 function Flow() {
   const [blocks, setBlocks] = useState(initialBlocks);
+  const [activeBlock, setActiveBlock] = useState(DEFAULT_BLOCK_NAME);
 
   // Node and edge change callbacks
   const onNodesChange = useCallback(
     (changes) => setBlocks((blocks_snapshot) => ({
       ...blocks_snapshot, 
-      [DEFAULT_BLOCK_NAME]: {
-        ...blocks_snapshot[DEFAULT_BLOCK_NAME],
+      [activeBlock]: {
+        ...blocks_snapshot[activeBlock],
         react_flow: {
-          ...blocks_snapshot[DEFAULT_BLOCK_NAME].react_flow,
-          initialNodes: applyNodeChanges(changes, blocks_snapshot[DEFAULT_BLOCK_NAME].react_flow.initialNodes)
+          ...blocks_snapshot[activeBlock].react_flow,
+          initialNodes: applyNodeChanges(changes, blocks_snapshot[activeBlock].react_flow.initialNodes)
         }
       }
     })),
-    [],
+    [activeBlock, blocks],
   );
 
   const onEdgesChange = useCallback(
     (changes) => setBlocks((blocks_snapshot) => ({
       ...blocks_snapshot, 
-      [DEFAULT_BLOCK_NAME]: {
-        ...blocks_snapshot[DEFAULT_BLOCK_NAME],
+      [activeBlock]: {
+        ...blocks_snapshot[activeBlock],
         react_flow: {
-          ...blocks_snapshot[DEFAULT_BLOCK_NAME].react_flow,
-          initialEdges: applyEdgeChanges(changes, blocks_snapshot[DEFAULT_BLOCK_NAME].react_flow.initialEdges)
+          ...blocks_snapshot[activeBlock].react_flow,
+          initialEdges: applyEdgeChanges(changes, blocks_snapshot[activeBlock].react_flow.initialEdges)
         }
       }
     })),
-    [],
+    [activeBlock, blocks],
   );
 
   const onConnect = useCallback(
     (params) => setBlocks((blocks_snapshot) => ({
       ...blocks_snapshot, 
-      [DEFAULT_BLOCK_NAME]: {
-        ...blocks_snapshot[DEFAULT_BLOCK_NAME],
+      [activeBlock]: {
+        ...blocks_snapshot[activeBlock],
         react_flow: {
-          ...blocks_snapshot[DEFAULT_BLOCK_NAME].react_flow,
-          initialEdges: addEdge(params, blocks_snapshot[DEFAULT_BLOCK_NAME].react_flow.initialEdges)
+          ...blocks_snapshot[activeBlock].react_flow,
+          initialEdges: addEdge(params, blocks_snapshot[activeBlock].react_flow.initialEdges)
         }
       }
     })),
-    [],
+    [activeBlock, blocks],
   );
 
   const applyNewNode = (blocks, node) => ({
     ...blocks,
-    [DEFAULT_BLOCK_NAME]: {
-      ...blocks[DEFAULT_BLOCK_NAME],
+    [activeBlock]: {
+      ...blocks[activeBlock],
       react_flow: {
-        ...blocks[DEFAULT_BLOCK_NAME].react_flow,
+        ...blocks[activeBlock].react_flow,
         initialNodes: [
-          ...blocks[DEFAULT_BLOCK_NAME].react_flow.initialNodes,
+          ...blocks[activeBlock].react_flow.initialNodes,
           node
         ]
       }
@@ -170,8 +181,11 @@ function Flow() {
   });
 
   const addNodeCounted = (node_callback) => {
-    const num_nodes = blocks[DEFAULT_BLOCK_NAME].react_flow.initialNodes.length;
-    setBlocks((blocks) => applyNewNode(blocks, node_callback(num_nodes)));
+    
+    setBlocks((blocks) => {
+      const num_nodes = blocks[activeBlock].react_flow.initialNodes.length;
+      applyNewNode(blocks, node_callback(num_nodes));
+    });
   }
 
   const codeBlocksList = Object.entries(blocks).filter(([, block]) => block.type === 'code');
@@ -202,7 +216,7 @@ function Flow() {
     <ReactFlowProvider>
       <div className= "parent-flex-box">
         <div className = "header-container">
-          <p>test</p>
+          <p>{activeBlock}</p>
         </div>
         <div className = "parent-grid-container">
           <div className = "side-panel">
@@ -210,29 +224,29 @@ function Flow() {
 
               <div className = "list-container">
                 <h3 className = "label-title">Input & Output</h3>
-                <ListBlock block={{type: "input", name:"New Input"}} addNode={addNodeCounted}/>
-                <ListBlock block={{type: "output", name:"New Output"}} addNode={addNodeCounted}/>
+                <ListBlock block={{type: "input", name:"New Input"}} addNode={addNodeCounted} setActiveBlock={() => {}}/>
+                <ListBlock block={{type: "output", name:"New Output"}} addNode={addNodeCounted} setActiveBlock={() => {}}/>
               </div>
 
               <div className = "list-container">
                 <h3 className = "label-title">Compose Blocks</h3>
                 {composedBlocksList.map(([title, block]) => 
-                  <ListBlock key={title} block={block} addNode={addNodeCounted}/>
+                  <ListBlock key={title} block={block} addNode={addNodeCounted} setActiveBlock={setActiveBlock}/>
                 )}
               </div>
               <div className = "list-container">
                 <h3 className = "label-title">Code Blocks</h3>
                 {codeBlocksList.map(([title, block]) => 
-                  <ListBlock key={title} block={block} addNode={addNodeCounted}/>
+                  <ListBlock key={title} block={block} addNode={addNodeCounted} setActiveBlock={setActiveBlock}/>
                 )}
               </div>
             </div>
             <div className = "canvas">
               <GlobalBlocksContext.Provider value={blocks}>
                   <ReactFlow
-                    nodes={blocks[DEFAULT_BLOCK_NAME].react_flow.initialNodes}
+                    nodes={blocks[activeBlock].react_flow.initialNodes}
                     onNodesChange={onNodesChange}
-                    edges={blocks[DEFAULT_BLOCK_NAME].react_flow.initialEdges}
+                    edges={blocks[activeBlock].react_flow.initialEdges}
                     onEdgesChange={onEdgesChange}
                     onConnect={onConnect}
                     nodeTypes={nodeTypes}
@@ -240,7 +254,7 @@ function Flow() {
                     fitView
                     style={rfStyle}
                   >
-                    <Background bgColor="var(--background)" color="var(--brand-dark)" variant={"dots"} gap={15} />
+                    <Background bgColor="var(--background)" color="var(--brand-light)" variant={"dots"} gap={15} />
                   </ReactFlow>
               </GlobalBlocksContext.Provider>
             </div>
