@@ -193,6 +193,10 @@ function Flow() {
   function generateBlock() {
     console.log("hello!");
   }
+  function handleSubmit(){
+    console.log("hello!");
+    closeModal();
+  }
  
   return (
     <ReactFlowProvider>
@@ -250,11 +254,11 @@ function Flow() {
         <h2>New Code Block</h2>
 
         <form onSubmit={(e) => {
-          e.preventDefault(); // prevents page reload
+          e.preventDefault(); 
           handleSubmit();
         }}>
-          <Button type="submit" onClick = {generateBlock} className = "primary-button" buttonText = "Create"/>
-          <Button type="button" onClick={closeModal} className = "secondary-button" buttonText = "Cancel"/>
+          <Button type="submit" className = "primary-button" buttonText = "Create"/>
+          <Button type="button" onClick={closeModal} className = "primary-button" buttonText = "Cancel"/>
         </form>
       </Modal>
       </div>
