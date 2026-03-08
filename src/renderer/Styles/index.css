@@ -9,7 +9,21 @@ body {
   height: 100vh;
 }
  
-.text-updater-node {
+.composed {
+  height: 150px;
+  border: 1px solid #eee;
+  padding: 5px;
+  border-radius: 5px;
+  background: white;
+}
+ 
+.composed label {
+  display: block;
+  color: #777;
+  font-size: 12px;
+}
+ 
+.code {
   height: 50px;
   border: 1px solid #eee;
   padding: 5px;
@@ -17,7 +31,35 @@ body {
   background: white;
 }
  
-.text-updater-node label {
+.code label {
+  display: block;
+  color: #777;
+  font-size: 12px;
+}
+ 
+.input {
+  height: 50px;
+  border: 1px solid #eee;
+  padding: 5px;
+  border-radius: 5px;
+  background: white;
+}
+ 
+.input label {
+  display: block;
+  color: #777;
+  font-size: 12px;
+}
+ 
+.output {
+  height: 50px;
+  border: 1px solid #eee;
+  padding: 5px;
+  border-radius: 5px;
+  background: white;
+}
+ 
+.output label {
   display: block;
   color: #777;
   font-size: 12px;
