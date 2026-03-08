@@ -4,10 +4,10 @@
   --brand-light: #4CCCE6;
   --brand-dark: #065468;
   --border-grey: #2E3135;
-  --block-background: #111B1F;
-  --block-outliine: #13677E;
-  --composer-background: #141726;
-  --composer-outline: #1D2E62;
+  --code-background: #111B1F;
+  --code-outline: #13677E;
+  --composed-background: #141726;
+  --composed-outline: #1D2E62;
   --text-primary: #EDEEF0;
   --text-secondary: #AFB3BA;
 
@@ -29,6 +29,14 @@ body {
   margin: 0;
   overflow: auto;
   background-color: var(--background);
+}
+body p, h1, h2, h3{
+  color:var(--text-primary);
+}
+.label-title{
+  color: var(--text-secondary);
+  size: var(--heading5);
+  font-weight:500;
 }
 .header-container{
   height:50px;
@@ -53,6 +61,9 @@ body {
 .side-panel{
   border-right: 2px solid var(--border-grey);
   padding: 20px 10px 20px 10px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
 }
  
 .composed {

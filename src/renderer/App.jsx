@@ -146,7 +146,9 @@ function Flow() {
     })),
     [],
   );
- 
+
+  const codeBlocksList = Object.entries(blocks).filter(([, block]) => block.type === 'code');
+  const composedBlocksList = Object.entries(blocks).filter(([, block]) => block.type === 'composed');
   return (
     <div className= "parent-flex-box">
       <div className = "header-container">
@@ -157,9 +159,18 @@ function Flow() {
           <Button onClick = {() => {
             console.log("hi");
           }} className = "primary-button" buttonText = "hi"/>
-          {Object.entries(blocks).map(([title, block]) => 
-            <ListBlock key={title} block={blocks[title]}/>
+          <div className = "list-container">
+            <h3 className = "label-title">Compose Blocks</h3>
+{           composedBlocksList.map(([title, block]) => 
+            <ListBlock key={title} block={block}/>
           )}
+          </div>
+          <div className = "list-container">
+            <h3 className = "label-title">Compose Blocks</h3>
+          {codeBlocksList.map(([title, block]) => 
+            <ListBlock key={title} block={block}/>
+          )}
+          </div>
         </div>
         <div className = "canvas">
           <ReactFlow

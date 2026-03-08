@@ -1,5 +1,21 @@
-.list-block-container{
+.composed-list-block{
     background-color: var(--foreground);
-    border-radius: 20px;
-    border: 2px solid var(--border-grey);
+    border-radius: 10px;
+    border: 1px solid var(--border-grey);
+    padding: 5px 10px 5px 10px;
+}
+.code-list-block{
+    background-color: var(--foreground);
+    border-radius: 10px;
+    border: 1px solid var(--border-grey);
+    padding: 5px 10px 5px 10px;
+}
+
+.composed-list-block:hover{
+    background-color: var(--composed-background);
+    border: 1px solid var(--composed-outline);
+}
+.code-list-block:hover{
+    background-color: var(--code-background);
+    border: 1px solid var(--code-outline);
 }

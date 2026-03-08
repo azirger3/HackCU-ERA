@@ -5,7 +5,7 @@ export default function ListBlock({block}){
     // block.type ("code" or "composed")
 
     return(
-       <div className = "list-block-container">
+       <div className = {block.type + "-list-block"}>
             <p>{block.name}</p>
        </div> 
     );
