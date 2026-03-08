@@ -12,6 +12,8 @@ import ComposedNode from './components/Composed';
 import CodeNode from './components/Code';
 import InputNode from './components/Input';
 import OutputNode from './components/Output';
+import makeAPICall from './API/API';
+import getPromptFromCodeBlock from './API/GetPrompt';
  
 const rfStyle = {
   backgroundColor: '#B8CEFF',
@@ -111,5 +113,7 @@ function Flow() {
     />
   );
 }
- 
+
+console.log(getPromptFromCodeBlock(sum_block));
+
 export default Flow;
