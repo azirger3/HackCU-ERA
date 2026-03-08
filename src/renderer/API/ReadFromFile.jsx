@@ -1,4 +1,4 @@
-async function WriteToFile(file_name, content, overwrite) {
+async function ReadFromFile(file_name, content, overwrite) {
     const result = await window.write_to_file.saveFile(file_name, content, overwrite);
     
     if (!result.success) {
@@ -6,4 +6,4 @@ async function WriteToFile(file_name, content, overwrite) {
     }
 }
 
-export default WriteToFile;
+export default ReadFromFile;

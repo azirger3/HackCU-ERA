@@ -101,5 +101,24 @@ const electronHandler: ElectronHandler = {
 };
 
 contextBridge.exposeInMainWorld('electron', electronHandler);
-contextBridge.exposeInMainWorld('env', {GEMINI_API_KEY: process.env.GEMINI_API_KEY});
-// contextBridge.exposeInMainWorld('write_to_file', {saveFile: (file_name: string, content: string) => ipcRenderer.invoke('write_to_file', {file_name, content})});
+
+contextBridge.exposeInMainWorld('env2', {GEMINI_2_API_KEY: process.env.GEMINI_2_API_KEY});
+contextBridge.exposeInMainWorld('env3', {GEMINI_3_API_KEY: process.env.GEMINI_3_API_KEY});
+
+contextBridge.exposeInMainWorld('write_to_file', {saveFile: (file_name: string, content: string, overwrite: boolean) => ipcRenderer.invoke('write-to-file', {file_name, content, overwrite})});
+
+export interface WriteToFile {
+  saveFile: (file_name: string, content: string, overwrite: boolean) => Promise<{
+    success: boolean;
+    error?: string;
+  }>;
+}
+
+contextBridge.exposeInMainWorld('run_test', {RunPythonCode: (file_name: string, file: string) => ipcRenderer.invoke('run-test', {file_name, file})});
+
+export interface RunTest {
+  RunPythonCode: (file_name: string, file: string) => Promise<{
+    success: number;
+    error?: string;
+  }>;
+}

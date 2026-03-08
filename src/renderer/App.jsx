@@ -10,6 +10,8 @@ import {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import './App.css';
+
+import GenerateComposite from './API/GenerateComposite';
  
 import ComposedNode from './components/Composed';
 import CodeNode from './components/Code';
@@ -21,12 +23,16 @@ import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import makeAPICall from './API/API';
 import getPromptFromCodeBlock from './API/GetPrompt';
+import WriteToFile from './API/WriteToFile';
+import ParseOutput from './API/ParseOutput';
+import RunTest from './Testing/RunTest';
+import GenerateAndTest from './API/GenerateAndTest';
 
 const rfStyle = {
   backgroundColor: '#B8CEFF',
 };
 
-const initialBlocks = {"main": {
+const initialBlocksA = {"main": {
   type: "composed",
   name: "main",
   react_flow: {
@@ -34,6 +40,8 @@ const initialBlocks = {"main": {
       initialEdges: []
   }
 }};
+
+import { initialBlocks } from '../../out/emptyBlocks';
 
 // we define the nodeTypes outside of the component to prevent re-renderings
 // you could also use useMemo inside the component
@@ -47,6 +55,76 @@ function Flow() {
   const [blocks, setBlocks] = useState(initialBlocks);
   const [activeBlock, setActiveBlock] = useState(DEFAULT_BLOCK_NAME);
   const [activeCode, setActiveCode] = useState(null);
+
+  async function generateCode() {
+    WriteToFile("blocks.js", "export const initialBlocks = " + JSON.stringify(blocks) + ";", true);
+
+    let output_str = "";
+
+    Object.entries(blocks).forEach(([key, block]) => {
+      if(block.type === "composed") {
+        output_str += GenerateComposite(blocks, block.name) + "\n";
+      }
+    });
+
+    let first = true;
+    let passed = true;
+
+    for(const [key, block] of Object.entries(blocks)) {
+      if(block.type === "code") {
+        console.log(block.gen_code);
+        if(block.gen_code.trim() == "") {
+          const [code_str, test_result] = await GenerateAndTest(block.name, blocks, first);
+          first = false;
+
+          console.log(test_result);
+          if(test_result.error) {
+            alert(`Test on ${block.name} failed: ${test_result.message}`);
+            passed = false;
+          } else {
+            setBlocks((b) => ({
+              ...b,
+              [block.name]: {
+                ...b[block.name],
+                gen_code: ParseOutput(code_str)
+              }
+            }));
+          }
+
+          output_str += code_str + "\n";
+
+        } else {
+          output_str += block.gen_code;
+        }
+      }
+    }
+
+    output_str = ParseOutput(output_str);
+
+    if(passed) {
+      await WriteToFile("main.py", output_str, true);
+    }
+
+    /* console.log(getPromptFromCodeBlock(sum_block));
+    WriteToFile("temp.txt", "check this out\n");
+    const code_in = `import os
+    print("Hello")
+    import numpy as np
+    import os
+    from math import sqrt
+    print("World")
+    import numpy as np`;
+    console.log(ParseOutput(code_in));
+
+    const test_result = await RunTest(`def sum(a,b):\n\treturn a+b\n`, sum_block);
+    console.log(test_result);
+
+    const text = window.env.TEST;
+    console.log(text);
+
+    const code_str, test_result = await GenerateAndTest("sum", initialBlocks, true);
+    console.log(prompt_resp); */
+  }
 
   // Node and edge change callbacks
   const onNodesChange = useCallback(
@@ -128,7 +206,8 @@ function Flow() {
       outputs: [],
       ai_description: "",
       file: "/home/.....",
-      test_cases: []
+      test_cases: [],
+      gen_code: ""
     };
 
     setBlocks((blocks) => ({...blocks, [new_block.name]: new_block}));
@@ -177,7 +256,7 @@ function Flow() {
       <div className= "parent-flex-box">
         <div className = "header-container">
           <div></div>
-          <Button buttonText = "Run Main Block" className = "secondary-button"/>
+          <Button buttonText = "Generate Main Block" className = "secondary-button" onClick={generateCode}/>
         </div>
         <div className = "parent-grid-container">
           <div className = "side-panel">
@@ -349,7 +428,5 @@ function Flow() {
     </ReactFlowProvider>
   );
 }
-
-//console.log(getPromptFromCodeBlock(sum_block));
 
 export default Flow;

@@ -7,6 +7,7 @@ function getPromptFromCodeBlock(code_block) {
     for (let i = 0; i < code_block.outputs.length; i++) {
         out_str += `\n${i+1}: ${code_block.outputs[i].name}, "${code_block.outputs[i].description}"`;
     }
+    out_str += `\nPlease only provide the code for the function without test examples or any other code. Give the response just as text without trying to wrap it in a code environment.`;
     return out_str;
 }
 

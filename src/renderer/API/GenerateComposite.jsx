@@ -1,95 +1,3 @@
-let code_block = {
-    type: "code",
-    name: "sum",
-    inputs: [
-        {
-        name: "a",
-        description: "The first number to sum"
-        },
-        {
-        name: "b",
-        description: "The second number to sum"
-        }
-    ],
-    outputs: [
-        {
-        name: "sum",
-        description: "the sum of a and b"
-        }
-    ],
-    ai_description: "output the sum of numbers a and b",
-    file: "/home/.....",
-    test_cases: [
-        {
-        inputs: "1,2",
-        outputs: "3"
-        }
-    ]
-}
-    
-let composed_block = {
-    type: "composed",
-    name: "sum3",
-    react_flow: {
-        initialNodes: [
-            {
-              id: "12",
-              type: "input",
-              position: { x: 100, y: 0 },
-              data: { label: "in1" },
-            },
-            {
-              id: "13",
-              type: "input",
-              position: { x: 100, y: 10 },
-              data: { label: "in2" },
-            },
-            {
-                id: "10",
-                name: "sum",
-                type: "code",
-                position: { x: 150, y: 10 },
-                data: { label: "sum" },
-            },
-            {
-              id: "15",
-              type: "code",
-              position: { x: 100, y: 10 },
-              data: { label: "sum" },
-            },
-            {
-              id: "17",
-              type: "input",
-              position: { x: 100, y: 10 },
-              data: { label: "in3" },
-            },
-            {
-              id: "18",
-              type: "output",
-              position: { x: 100, y: 10 },
-              data: { label: "sum_3_way" },
-            },
-            {
-              id: "20",
-              type: "output",
-              position: { x: 100, y: 10 },
-              data: { label: "sum_ab" },
-            },
-        ],
-        initialEdges: [
-            { id: 'edge-1', source: '12', target: '10', targetHandle: 'a', sourceHandle: "out" },
-            { id: 'edge-2', source: '13', target: '10', targetHandle: 'b', sourceHandle: "out" },
-            { id: 'edge-2', source: '10', target: '15', targetHandle: 'a', sourceHandle: "sum" },
-            { id: 'edge-2', source: '17', target: '15', targetHandle: 'b', sourceHandle: "out" },
-            { id: 'edge-2', source: '15', target: '18', targetHandle: 'out', sourceHandle: "sum" },
-            { id: 'edge-2', source: '10', target: '20', targetHandle: 'out', sourceHandle: "sum" },
-        ]
-    }
-}
-
-blocks = [code_block, composed_block];
-
-
 function nodes_list_to_dictionary(initialNodes) {
     let nodes = {};
     for (const node of initialNodes) {
@@ -167,7 +75,7 @@ function get_composed_block_outs(block) {
 // blocks is a list of all the blocks available in the program
 // generate_name is the name of the block to generate code for
 // generate_id must correspond to a type: "composed" node
-export function generate_composed_code(blocks, generate_name) {
+export function GenerateComposite(blocks, generate_name) {
     let output = "";
 
     let block = blocks[generate_name];
@@ -178,8 +86,8 @@ export function generate_composed_code(blocks, generate_name) {
     // add function definition
     output += `def ${block.name}(`;
     // find inputs
-    inputs = get_block_inputs(block);
-    input_count = 0;
+    let inputs = get_block_inputs(block);
+    let input_count = 0;
     for(const inp of inputs) {
         if(input_count > 0) {
             output += ", ";
@@ -259,7 +167,7 @@ export function generate_composed_code(blocks, generate_name) {
                 generate_node_code(edge.source);
                 const target = nodes_by_id[edge.target];
                 const source = nodes_by_id[edge.source];
-                output += `    ${target.data.label}_${target.id} = ${source.data.label}_${source.id}\n`;
+                output += `    ${target.data.label}_${target.id} = ${edge.sourceHandle}_${source.id}\n`;
             }
 
             generated_node_ids.add(node.id);
@@ -286,4 +194,4 @@ export function generate_composed_code(blocks, generate_name) {
     return output;
 }
 
-console.log(generate_composed_code(blocks, "sum3"));
+export default GenerateComposite;
