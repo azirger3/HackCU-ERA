@@ -81,6 +81,8 @@ body p, h1, h2, h3{
   display:flex;
   flex-direction:column;
   gap:10px;
+  overflow: scroll;
+  height: calc(100vh - 80px);
 }
  
 .composed {

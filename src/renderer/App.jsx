@@ -26,91 +26,14 @@ const rfStyle = {
   backgroundColor: '#B8CEFF',
 };
 
-let initialBlocks = {};
-
-let sum_block = {
-  id: "test-4",
-  type: "code",
-  name: "sum",
-  inputs: [
-      {
-      name: "a",
-      description: "The first number to sum"
-      },
-      {
-      name: "b",
-      description: "The second number to sum"
-      }
-  ],
-  outputs: [
-      {
-      name: "sum",
-      description: "the sum of a and b"
-      }
-  ],
-  ai_description: "output the sum of numbers a and b",
-  file: "/home/.....",
-  test_cases: [
-      {
-      inputs: ["1", "2"],
-      outputs: ["3"]
-      }
-  ]
-};
-
-
-const initialNodes = [
-  {
-    id: 'node-1',
-    type: 'composed',
-    position: { x: 100, y: 0 },
-    data: { label: "sum3" },
-  },
-  {
-    id: 'node-2',
-    type: 'output',
-    targetPosition: 'top',
-    position: { x: 0, y: 200 },
-    data: { label: 'node 2' },
-  },
-  {
-    id: 'node-3',
-    type: 'output',
-    targetPosition: 'top',
-    position: { x: 200, y: 200 },
-    data: { label: 'node 3' },
-  },
-];
- 
-const initialEdges = [
-  { id: 'edge-1', source: 'node-1', target: 'node-2', sourceHandle: 'node 2', targetHandle: "outputTarget"},
-  { id: 'edge-2', source: 'node-1', target: 'node-3', sourceHandle: 'node 3', targetHandle: "outputTarget"},
-];
- 
-let composed_block = {
-  id: "test-2",
+const initialBlocks = {"main": {
   type: "composed",
-  block_id: 2,
-  name: "sum3",
-  react_flow: {
-      initialNodes: initialNodes,
-      initialEdges: initialEdges
-  }
-};
-
-let composed_block2 = {
-  type: "composed",
-  name: "test_composed",
+  name: "main",
   react_flow: {
       initialNodes: [],
       initialEdges: []
   }
-};
-
-
-initialBlocks["sum"] = sum_block;
-initialBlocks["sum3"] = composed_block;
-initialBlocks["test_composed"] = composed_block2;
+}};
 
 // we define the nodeTypes outside of the component to prevent re-renderings
 // you could also use useMemo inside the component
@@ -118,7 +41,7 @@ const nodeTypes = { composed: ComposedNode, code: CodeNode, input: InputNode, ou
  
 export const GlobalBlocksContext = createContext({global_blocks: null, setGlobalBlocks: null, activeBlock: null, setActiveBlock: null, setActiveCode: null});
 
-const DEFAULT_BLOCK_NAME = "sum3";
+const DEFAULT_BLOCK_NAME = "main";
 
 function Flow() {
   const [blocks, setBlocks] = useState(initialBlocks);
@@ -260,7 +183,7 @@ function Flow() {
           <div className = "side-panel">
             <Button onClick={openModal} className = "primary-button" buttonText = "New Code Block"/>
             <Button onClick={openNewComposite} className = "primary-button" buttonText = "New Composite Block"/>
-            
+
               <ListBlock block={{type: "input", name:"Input"}} addNode={addNodeCounted} setActiveBlock={() => {}}/>
               <ListBlock block={{type: "output", name:"Output"}} addNode={addNodeCounted} setActiveBlock={() => {}}/>
 
@@ -427,6 +350,6 @@ function Flow() {
   );
 }
 
-console.log(getPromptFromCodeBlock(sum_block));
+//console.log(getPromptFromCodeBlock(sum_block));
 
 export default Flow;
