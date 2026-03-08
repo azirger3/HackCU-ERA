@@ -18,7 +18,9 @@ import Button from './components/Button';
 import ListBlock from './components/ListBlock'
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
- 
+import makeAPICall from './API/API';
+import getPromptFromCodeBlock from './API/GetPrompt';
+
 const rfStyle = {
   backgroundColor: '#B8CEFF',
 };
@@ -283,5 +285,7 @@ function Flow() {
     </ReactFlowProvider>
   );
 }
- 
+
+console.log(getPromptFromCodeBlock(sum_block));
+
 export default Flow;
