@@ -36,3 +36,31 @@ body {
   color: #777;
   font-size: 12px;
 }
+ 
+.input {
+  height: 50px;
+  border: 1px solid #eee;
+  padding: 5px;
+  border-radius: 5px;
+  background: white;
+}
+ 
+.input label {
+  display: block;
+  color: #777;
+  font-size: 12px;
+}
+ 
+.output {
+  height: 50px;
+  border: 1px solid #eee;
+  padding: 5px;
+  border-radius: 5px;
+  background: white;
+}
+ 
+.output label {
+  display: block;
+  color: #777;
+  font-size: 12px;
+}

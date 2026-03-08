@@ -75,8 +75,8 @@ const initialNodes = [
 ];
  
 const initialEdges = [
-  { id: 'edge-1', source: 'node-1', target: 'node-2', sourceHandle: 'a', targetHandle: "outputTarget"},
-  { id: 'edge-2', source: 'node-1', target: 'node-3', sourceHandle: 'b', targetHandle: "outputTarget"},
+  { id: 'edge-1', source: 'node-1', target: 'node-2', sourceHandle: 'node 2', targetHandle: "outputTarget"},
+  { id: 'edge-2', source: 'node-1', target: 'node-3', sourceHandle: 'node 3', targetHandle: "outputTarget"},
 ];
  
 let composed_block = {
