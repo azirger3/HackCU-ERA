@@ -1,0 +1,1 @@
+export const initialBlocks = {"main":{"type":"composed","name":"main","react_flow":{"initialNodes":[],"initialEdges":[]}}};
