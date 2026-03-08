@@ -22,6 +22,7 @@ import makeAPICall from './API/API';
 import getPromptFromCodeBlock from './API/GetPrompt';
 import WriteToFile from './API/WriteToFile';
 import ParseOutput from './API/ParseOutput';
+import RunTest from './Testing/RunTest';
 
 const rfStyle = {
   backgroundColor: '#B8CEFF',
@@ -54,11 +55,12 @@ let sum_block = {
   file: "/home/.....",
   test_cases: [
       {
-      inputs: ["1", "2"],
-      outputs: ["3"]
+      inputs: "1,2",
+      outputs: "3"
       }
   ]
 };
+
 
 
 const initialNodes = [
@@ -298,5 +300,8 @@ from math import sqrt
 print("World")
 import numpy as np`;
 console.log(ParseOutput(code_in));
+
+const test_result = await RunTest(`def sum(a,b):\n\treturn a+b\n`, sum_block);
+console.log(test_result);
 
 export default Flow;

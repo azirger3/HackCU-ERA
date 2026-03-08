@@ -21,8 +21,8 @@ let code_block = {
     file: "/home/.....",
     test_cases: [
         {
-        inputs: ["1", "2"],
-        outputs: ["3"]
+        inputs: "1,2",
+        outputs: "3"
         }
     ]
 }

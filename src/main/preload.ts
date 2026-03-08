@@ -109,7 +109,15 @@ contextBridge.exposeInMainWorld('write_to_file', {saveFile: (file_name: string, 
 export interface WriteToFile {
   saveFile: (file_name: string, content: string) => Promise<{
     success: boolean;
-    path?: string;
+    error?: string;
+  }>;
+}
+
+contextBridge.exposeInMainWorld('run_test', {RunPythonCode: (file_name: string, file: string) => ipcRenderer.invoke('run-test', {file_name, file})});
+
+export interface RunTest {
+  RunPythonCode: (file_name: string, file: string) => Promise<{
+    success: number;
     error?: string;
   }>;
 }
