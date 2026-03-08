@@ -206,6 +206,18 @@ body p, h1, h2, h3{
   left:300px;
   padding: 20px 20px 20px 20px;
 }
+
+.new-comp-form{
+  background-color: var(--foreground);
+  border-radius:20px;
+  border: 2px solid var(--border-grey);
+  position: fixed;
+  top:100px;
+  right: 300px;
+  left:300px;
+  padding: 20px 20px 50px 20px;
+}
+
 .modal-io-row{
   display:flex;
   flex-direction:row;
@@ -262,6 +274,9 @@ input:focus {
 }
 .material-symbols-rounded{
   color:var(--text-primary);
+}
+.material-symbols-rounded:hover {
+  cursor: pointer;
 }
 .io-row{
   display:grid;

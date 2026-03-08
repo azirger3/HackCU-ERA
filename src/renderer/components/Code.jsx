@@ -6,10 +6,10 @@ function CodeNode(props) {
     let inputHandleStyle = { top: 40 };
     let outputHandleStyle = { top: 40 };
 
-    const {global_blocks, setActiveBlock} = useContext(GlobalBlocksContext);
+    const {global_blocks, setActiveCode} = useContext(GlobalBlocksContext);
 
     return (
-        <div className="code">
+        <div className="code" onDoubleClick={() => setActiveCode(props.data.label)}>
             <div> {props.data.label} </div>
             {global_blocks[props.data.label].inputs.map(node => 
                 <Handle key={node.name} type="target" position={Position.Left} id={node.name} style={(() => {inputHandleStyle.top += 30; return structuredClone(inputHandleStyle);})()} >{node.name}</Handle>

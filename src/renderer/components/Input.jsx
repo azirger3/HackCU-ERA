@@ -1,36 +1,52 @@
 import { Handle, Position } from '@xyflow/react';
 import { useCallback, useContext, useState, createContext } from 'react';
 import { GlobalBlocksContext } from 'renderer/App'; 
+import Modal from 'react-modal';
+import Button from './Button';
  
 function InputNode(props) {
     const {setGlobalBlocks, activeBlock, global_blocks} = useContext(GlobalBlocksContext);
 
-    const [editable, setEditable] = useState(false);
+    const [editable, setEditable] = useState(null);
 
-    const onChange = useCallback(lbl => {
+    const onChange = () => {
         // Sanitize the input to prevent XSS attacks
         setGlobalBlocks((blocks_snapshot => {
             const nodes = blocks_snapshot[activeBlock].react_flow.initialNodes;
-            console.log(nodes);
-            console.log(props.data.label);
-            console.log(lbl);
+            let newB = JSON.parse(JSON.stringify(blocks_snapshot));
             for(let i = 0; i < nodes.length; i++) {
                 if(nodes[i].data.label === props.data.label && nodes[i].type === "input") {
-                    blocks_snapshot[activeBlock].react_flow.initialNodes[i].data.label = lbl;
+                    if(editable !== null) {
+                        newB[activeBlock].react_flow.initialNodes[i].data.label = editable;
+                    }
                 }
             }
-            return blocks_snapshot;
+            return newB;
         }));
-    }, [global_blocks]);
+    };
 
     return (
-        <div className="input" onDoubleClick={() => setEditable(() => true)}>
-            {editable ? 
-                <input type="text" value={props.data.label} onChange={(e) => onChange(e.target.value)} />
-                :<div>{props.data.label}</div>
-            }
-            <Handle type="source" position={Position.Right} id="inputSource" />
-        </div>
+        <>
+            <Modal
+                isOpen={editable !== null}
+                onRequestClose={() => setEditable(() => null)}
+                contentLabel={"Rename Input"}
+                className="new-comp-form"
+                overlayClassName="new-block-overlay"
+                >
+                <div className="modal-header">
+                    <span className="material-symbols-rounded" onClick={() => setEditable(() => null)}>close</span>
+                    <Button type="button" onClick={() => {onChange(); setEditable(() => null)}} className="primary-button" buttonText="Save"/>
+                </div>
+                
+                <div className="label-title" style={{marginBottom: "1rem"}}>Input Name:</div>
+                <input className="modal-input" placeholder="Block Name" value={editable === null ? "" : editable} onChange={(e) => {setEditable(() => e.target.value)}} />
+            </Modal>
+            <div className="input" onDoubleClick={() => setEditable(() => props.data.label)}>
+                <div>{props.data.label}</div>
+                <Handle type="source" position={Position.Right} id="inputSource" />
+            </div>
+        </>
     );
 }
  
