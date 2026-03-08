@@ -1,0 +1,17 @@
+.primary-button{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background-color: var(--brand-dark);
+    border-radius:100px;
+    width:fit-content;
+    min-width:80px;
+}
+
+.primary-button p{
+   color: var(--text-primary);
+}
+
+.primary-button:hover{
+    background-color:#05495a;
+}
