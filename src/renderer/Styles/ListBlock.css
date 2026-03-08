@@ -14,8 +14,10 @@
 .composed-list-block:hover{
     background-color: var(--composed-background);
     border: 1px solid var(--composed-outline);
+    cursor: pointer;
 }
 .code-list-block:hover{
     background-color: var(--code-background);
     border: 1px solid var(--code-outline);
+    cursor: pointer;
 }

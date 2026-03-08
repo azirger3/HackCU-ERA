@@ -1,9 +1,11 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useContext, useState, createContext } from 'react';
 import {
   ReactFlow,
   addEdge,
   applyEdgeChanges,
   applyNodeChanges,
+  Background,
+  ReactFlowProvider
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import './App.css';
@@ -58,21 +60,21 @@ const initialNodes = [
     id: 'node-1',
     type: 'composed',
     position: { x: 100, y: 0 },
-    data: { label: "sum3", global_blocks: initialBlocks },
+    data: { label: "sum3" },
   },
   {
     id: 'node-2',
     type: 'output',
     targetPosition: 'top',
     position: { x: 0, y: 200 },
-    data: { label: 'node 2', global_blocks: initialBlocks },
+    data: { label: 'node 2' },
   },
   {
     id: 'node-3',
     type: 'output',
     targetPosition: 'top',
     position: { x: 200, y: 200 },
-    data: { label: 'node 3', global_blocks: initialBlocks },
+    data: { label: 'node 3' },
   },
 ];
  
@@ -99,6 +101,8 @@ initialBlocks["sum3"] = composed_block;
 // you could also use useMemo inside the component
 const nodeTypes = { composed: ComposedNode, code: CodeNode, input: InputNode, output: OutputNode };
  
+export const GlobalBlocksContext = createContext(null);
+
 const DEFAULT_BLOCK_NAME = "sum3";
 
 function Flow() {
@@ -162,14 +166,13 @@ function Flow() {
   });
 
   const addNode = (node) => {
-    setBlocks((blocks) => {
-      let new_blocks = applyNewNode(blocks, node);
-      for(let i = 0; i < new_blocks[DEFAULT_BLOCK_NAME].react_flow.initialNodes.length; i++) {
-        new_blocks[DEFAULT_BLOCK_NAME].react_flow.initialNodes[i].data.global_blocks = new_blocks;
-      }
-      return new_blocks;
-    });
+    setBlocks((blocks) => applyNewNode(blocks, node));
   };
+
+  const addNodeCounted = (node_callback) => {
+    const num_nodes = blocks[DEFAULT_BLOCK_NAME].react_flow.initialNodes.length;
+    setBlocks((blocks) => applyNewNode(blocks, node_callback(num_nodes)));
+  }
 
   const newInput = () => {
     let id = `${blocks[DEFAULT_BLOCK_NAME].react_flow.initialNodes.length + 1}`;
@@ -177,7 +180,7 @@ function Flow() {
       id: id,
       type: "input",
       position: { x: 200, y: 200 },
-      data: { label: `Input ${id}`, global_blocks: blocks },
+      data: { label: `Input ${id}` },
     };
     addNode(newNode);
   };
@@ -188,7 +191,7 @@ function Flow() {
       id: id,
       type: "output",
       position: { x: 200, y: 200 },
-      data: { label: `Output ${id}`, global_blocks: blocks },
+      data: { label: `Output ${id}` },
     };
     addNode(newNode);
   }
@@ -198,48 +201,54 @@ function Flow() {
   
  
   return (
-    <div className= "parent-flex-box">
-      <div className = "header-container">
-        <p>test</p>
-      </div>
-       <div className = "parent-grid-container">
-        <div className = "side-panel">
-          <Button onClick = {() => {
-            console.log("hi");
-          }} className = "primary-button" buttonText = "hi"/>
+    <ReactFlowProvider>
+      <div className= "parent-flex-box">
+        <div className = "header-container">
+          <p>test</p>
+        </div>
+        <div className = "parent-grid-container">
+          <div className = "side-panel">
+            <Button onClick = {() => {
+              console.log("hi");
+            }} className = "primary-button" buttonText = "hi"/>
 
-          <Button onClick={newInput} className = "primary-button" buttonText = "Add Input"/>
+            <Button onClick={newInput} className = "primary-button" buttonText = "Add Input"/>
 
-          <Button onClick={newOutput} className = "primary-button" buttonText = "Add Output"/>
+            <Button onClick={newOutput} className = "primary-button" buttonText = "Add Output"/>
 
-          <div className = "list-container">
-            <h3 className = "label-title">Compose Blocks</h3>
-{           composedBlocksList.map(([title, block]) => 
-            <ListBlock key={title} block={block}/>
-          )}
+            <div className = "list-container">
+              <h3 className = "label-title">Compose Blocks</h3>
+              {composedBlocksList.map(([title, block]) => 
+                <ListBlock key={title} block={block} addNode={addNodeCounted}/>
+              )}
+            </div>
+            <div className = "list-container">
+              <h3 className = "label-title">Code Blocks</h3>
+              {codeBlocksList.map(([title, block]) => 
+                <ListBlock key={title} block={block} addNode={addNodeCounted}/>
+              )}
+            </div>
           </div>
-          <div className = "list-container">
-            <h3 className = "label-title">Compose Blocks</h3>
-          {codeBlocksList.map(([title, block]) => 
-            <ListBlock key={title} block={block}/>
-          )}
+          <div className = "canvas">
+            <GlobalBlocksContext.Provider value={blocks}>
+                <ReactFlow
+                  nodes={blocks[DEFAULT_BLOCK_NAME].react_flow.initialNodes}
+                  onNodesChange={onNodesChange}
+                  edges={blocks[DEFAULT_BLOCK_NAME].react_flow.initialEdges}
+                  onEdgesChange={onEdgesChange}
+                  onConnect={onConnect}
+                  nodeTypes={nodeTypes}
+                  deleteKeyCode={["Backspace", "Delete"]}
+                  fitView
+                  style={rfStyle}
+                >
+                  <Background bgColor="var(--background)" color="var(--brand-dark)" variant={"dots"} gap={15} />
+                </ReactFlow>
+            </GlobalBlocksContext.Provider>
           </div>
         </div>
-        <div className = "canvas">
-          <ReactFlow
-            nodes={blocks[DEFAULT_BLOCK_NAME].react_flow.initialNodes}
-            onNodesChange={onNodesChange}
-            edges={blocks[DEFAULT_BLOCK_NAME].react_flow.initialEdges}
-            onEdgesChange={onEdgesChange}
-            onConnect={onConnect}
-            nodeTypes={nodeTypes}
-            deleteKeyCode={["Backspace", "Delete"]}
-            fitView
-            style={rfStyle}
-          />
-        </div>
       </div>
-    </div>
+    </ReactFlowProvider>
   );
 }
  

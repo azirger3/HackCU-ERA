@@ -3,7 +3,7 @@ import { Handle, Position } from '@xyflow/react';
 function InputNode(props) {
   return (
     <div className="input">
-      <div>Input Node</div>
+      <div>{props.data.label}</div>
       <Handle type="source" position={Position.Right} id="inputSource" />
     </div>
   );
