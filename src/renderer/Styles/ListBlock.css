@@ -1,0 +1,66 @@
+.composed-list-block{
+    background-color: var(--foreground);
+    border: 1px solid var(--border-grey);
+    border-radius: 5px;
+    padding: 5px 10px 5px 10px;
+    margin-bottom: 1em;
+    font-family:var(--decorative-font);
+    font-weight:300;
+    transition: 200ms ease;
+}
+.code-list-block{
+    transition: 200ms ease;
+    background-color: var(--foreground);
+    border: 1px solid var(--border-grey);
+    border-radius: 10px;
+    padding: 5px 10px 5px 10px;
+    margin-bottom: 1em;
+    font-family:var(--decorative-font);
+}
+
+.input-list-block{
+    transition: 200ms ease;
+    background-color: var(--foreground);
+    border: 1px solid var(--border-grey);
+    border-radius: 30px;
+    padding: 5px 15px 5px 15px;
+    margin-bottom: 0.2em;
+    width:auto;
+    font-family:var(--decorative-font);
+    font-weight:300;
+}
+
+.output-list-block{
+    transition: 200ms ease;
+    border-radius: 30px;
+    background-color: var(--foreground);
+    border: 1px solid var(--border-grey);
+    padding: 5px 15px 5px 15px;
+    margin-bottom: 0.2em;
+    width:auto;
+    font-family:var(--decorative-font);
+    font-weight:300;
+}
+
+.composed-list-block:hover{
+    background-color: var(--composed-background-hover);
+    border: 1px solid var(--composed-outline);
+    cursor: pointer;
+}
+.code-list-block:hover{
+    background-color: var(--code-background-hover);
+    border: 1px solid var(--code-outline);
+    cursor: pointer;
+}
+
+.input-list-block:hover{
+    background-color: var(--i-background-hover);
+    border: 1px solid var(--i-outline);
+    cursor: pointer;
+}
+
+.output-list-block:hover{
+    background-color: var(--o-background-hover);
+    border: 1px solid var(--o-outline);
+    cursor: pointer;
+}

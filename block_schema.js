@@ -21,8 +21,8 @@ let code_block = {
     file: "/home/.....",
     test_cases: [
         {
-        inputs: ["1", "2"],
-        outputs: ["3"]
+        inputs: "1,2",
+        outputs: "3"
         }
     ]
 }
@@ -89,15 +89,6 @@ let composed_block = {
 
 blocks = [code_block, composed_block];
 
-// Convert a list of blocks in a dictionary of blocks indexed by name
-function block_list_to_block_dictionary(blocks) {
-    let dict = {};
-    for (const block of blocks) {
-        dict[block.name] = block;
-    }
-
-    return dict;
-}
 
 function nodes_list_to_dictionary(initialNodes) {
     let nodes = {};
@@ -176,10 +167,9 @@ function get_composed_block_outs(block) {
 // blocks is a list of all the blocks available in the program
 // generate_name is the name of the block to generate code for
 // generate_id must correspond to a type: "composed" node
-function generate_composed_code(blocks, generate_name) {
+export function generate_composed_code(blocks, generate_name) {
     let output = "";
 
-    blocks = block_list_to_block_dictionary(blocks);
     let block = blocks[generate_name];
     // We can only generate code for composed blocks
     if(block.type !== "composed") {

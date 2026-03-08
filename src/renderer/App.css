@@ -1,13 +1,282 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&display=swap');
+:root{
+  --background: #111113;
+  --foreground: #171719;
+  --brand-light: #979797;
+  --brand-dark: #5b5b5b;
+  --border-grey: #2E3135;
+  --code-background: #302008;
+  --code-background-hover: #302008;
+  --code-outline: #8F6424;
+  --composed-background: #182449;
+   --composed-background-hover: #182449;
+  --composed-outline: #374b8f;
+  --text-primary: #EDEEF0;
+  --text-secondary: #AFB3BA;
+  --i-background: #082C36; 
+  --i-background-hover: #082C36; 
+  --i-outline: #13677E;
+  --o-background: #37172F; 
+  --o-background-hover: #37172F; 
+  --o-outline: #692955;
+
+  --heading1: 2rem;
+  --heading2: 1.8rem;
+  --heading3: 1.5rem;
+  --heading4: 1.2rem;
+  --heading5: 1.1rem;
+  --text: 1rem;
+
+  --decorative-font:"Roboto Mono", monospace;
+  --plain-font:"Roboto", sans-serif;
+
+}
+html,
+body {
+  margin: 0;
+  font-family: var(--decorative-font);
+  font-weight:300;
+}
+
 body {
   margin: 0;
   overflow: auto;
+  background-color: var(--background);
+}
+body p, h1, h2, h3{
+  color:var(--text-primary);
+}
+.label-title{
+  color: var(--text-secondary);
+  font-weight:300;
+  font-family:var(--plain-font);
+}
+.header-container{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  height:50px;
+  border-bottom: 1px solid var(--border-grey);
+  padding: 10px 30px 20px 30px;
+  justify-items: end;
+}
+.parent-flex-box{
+  position:fixed;
+  display:flex;
+  flex-direction:column;
+}
+.parent-grid-container{
+  min-height: 100vh;
+  width: 100vw;
+  display:grid;
+  grid-template-columns: 250px 1fr;
+}
+.canvas{
+  width:100%;
+  height:100%;
+}
+.side-panel{
+  border-right: 1px solid var(--border-grey);
+  padding: 20px 10px 20px 10px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  overflow: scroll;
+  height: calc(100vh - 80px);
+}
+ 
+.composed {
+  height: 80px;
+  width:100px;
+  padding: 5px;
+  border-radius: 2px;
+  border: 1px solid var(--composed-outline);
+  background-color: var(--composed-background);
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+}
+ 
+.composed label {
+  display: block;
+  color: var(--text-primary);
+  font-size: 12px;
+}
+ 
+.code {
+  height: 100px;
+  width:100px;
+  padding: 5px;
+  border-radius: 10px;
+  border: 1px solid var(--code-outline);
+  background-color: var(--code-background);
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+}
+ 
+.code label {
+  display: block;
+  color: var(--text-primary);
+  font-size: 12px;
 }
 
-.body-container {
+.input {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 1px solid var(--i-outline);
+  background-color: var(--i-background);
   display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
   align-items: center;
-  min-height: 100vh; /* Ensure it takes up the full viewport height */
-  background-color: #e9ecef; /* Optional: Set a background color for better visibility */
-  margin: 0; /* Remove default margin */
+  color: var(--text-primary);
+  font-size:14px;
+}
+ 
+.input label {
+  display: block;
+  color: var(--text-primary);
+  font-size: 12px;
+}
+ 
+.output {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 1px solid var(--o-outline);
+  background-color: var(--o-background);
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  color: var(--text-primary);
+  font-size:14px;
+}
+ 
+.output label {
+  display: block;
+  color: var(--text-primary);
+  font-size: 12px;
+}
+
+.react-flow__node-input.nopan {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  width: fit-content;
+  height: fit-content;
+}
+
+.react-flow__node-output.nopan {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  width: fit-content;
+  height: fit-content;
+}
+
+.new-block-form{
+  background-color: var(--foreground);
+  border-radius:20px;
+  border: 2px solid var(--border-grey);
+  position: fixed;
+  top:100px;
+  bottom: 50px;
+  right: 300px;
+  left:300px;
+  padding: 20px 20px 20px 20px;
+}
+
+.new-comp-form{
+  background-color: var(--foreground);
+  border-radius:20px;
+  border: 2px solid var(--border-grey);
+  position: fixed;
+  top:100px;
+  right: 300px;
+  left:300px;
+  padding: 20px 20px 50px 20px;
+}
+
+.modal-io-row{
+  display:flex;
+  flex-direction:row;
+  gap:50px;
+}
+.modal-input{
+  background-color:var(--background);
+  outline: none;
+  border:2px solid var(--border-grey);
+  border-radius:5px;
+  padding:5px 10px 5px 10px;
+  width:250px;
+  color: var(--text-primary);
+  font-size: var(--text);
+}
+input:focus {
+  outline: none;
+  border:2px solid var(--border-grey);
+  box-shadow: none;
+}
+.modal-io-col{
+  display:flex;
+  flex-direction:column;
+  gap: 10px;
+}
+
+.modal-textarea{
+  background-color:var(--background);
+  outline: none;
+  border:2px solid var(--border-grey);
+  border-radius:5px;
+  padding:5px 10px 5px 10px;
+  width:600px;
+  color: var(--text-primary);
+  font-size: var(--text);
+  min-height: 120px;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+.code-form{
+  overflow-y: auto;
+  max-height: 600px;
+}
+.modal-section-title{
+  color: var(--text-secondary);
+  font-weight: 300;
+  font-size:var(--heading4);
+  font-family: var(--plain-font);
+}
+.modal-header{
+  display:flex;
+  flex-direction:row;
+  justify-content:space-between;
+}
+.material-symbols-rounded{
+  color:var(--text-primary);
+}
+.material-symbols-rounded:hover {
+  cursor: pointer;
+}
+.io-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.compose-title{
+  font-size: var(--heading3);
+  color:var(--text-primary);
+  background-color:var(--background);
 }

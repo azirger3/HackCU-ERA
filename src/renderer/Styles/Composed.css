@@ -1,0 +1,21 @@
+.block_input{
+    font-size:.9rem;
+    display: block !important;
+    width: 300px;
+    display: block;
+    position: absolute;
+    text-align: right;
+    top: -0.5rem;
+    left: calc(-300px - 0.5rem);
+}
+
+.block_output{
+    font-size:.9rem;
+    display: block !important;
+    width: 300px;
+    display: block;
+    position: absolute;
+    top: -0.5rem;
+    left: 0.75rem;
+
+}

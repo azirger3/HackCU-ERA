@@ -14,6 +14,53 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { resolveHtmlPath } from './util';
 import setIpcRoutes from './startup/ipc.startup';
+import fs from 'fs';
+import { spawn } from 'child_process';
+
+require('dotenv').config();
+
+interface to_write {
+  file_name: string;
+  content: string;
+  overwrite: boolean;
+}
+
+ipcMain.handle('write-to-file', async (event, data: to_write) => {
+  const file_path = path.join(app.getAppPath(), "out/", data.file_name);
+  try {
+    if (data.overwrite) {
+      fs.writeFileSync(file_path, data.content); // Overwrites
+    } else {
+      fs.appendFileSync(file_path, data.content); // Appends
+    }
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: (err as Error).message };
+  }
+});
+
+interface run_test {
+  file_name: string;
+  file: string;
+}
+
+ipcMain.handle('run-test', async (event, data: run_test) => {
+  const file_path = path.join(app.getAppPath(), "test/", `${data.file_name}.py`);
+  fs.writeFileSync(file_path, data.file);
+  return new Promise((resolve) => {
+    const proc = spawn('python3', [file_path]);
+    
+    let err = '';
+
+    proc.stderr.on('data', (out: string) => {
+      err += out.toString();
+    });
+
+    proc.on('close', (code) => {
+      resolve({ exitCode: code, err_out: err });
+    });
+  });
+});
 
 class AppUpdater {
   constructor() {
