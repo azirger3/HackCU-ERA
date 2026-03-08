@@ -19,7 +19,7 @@ const rfStyle = {
   backgroundColor: '#B8CEFF',
 };
 
-let blocks = {};
+let initialBlocks = {};
 
 let sum_block = {
   id: "10",
@@ -58,21 +58,21 @@ const initialNodes = [
     id: 'node-1',
     type: 'composed',
     position: { x: 100, y: 0 },
-    data: { label: "sum3", global_blocks: blocks },
+    data: { label: "sum3", global_blocks: initialBlocks },
   },
   {
     id: 'node-2',
     type: 'output',
     targetPosition: 'top',
     position: { x: 0, y: 200 },
-    data: { label: 'node 2', global_blocks: blocks },
+    data: { label: 'node 2', global_blocks: initialBlocks },
   },
   {
     id: 'node-3',
     type: 'output',
     targetPosition: 'top',
     position: { x: 200, y: 200 },
-    data: { label: 'node 3', global_blocks: blocks },
+    data: { label: 'node 3', global_blocks: initialBlocks },
   },
 ];
  
@@ -92,16 +92,60 @@ let composed_block = {
   }
 };
 
-blocks["sum"] = sum_block;
-blocks["sum3"] = composed_block;
+initialBlocks["sum"] = sum_block;
+initialBlocks["sum3"] = composed_block;
 
 // we define the nodeTypes outside of the component to prevent re-renderings
 // you could also use useMemo inside the component
 const nodeTypes = { composed: ComposedNode, code: CodeNode, input: InputNode, output: OutputNode };
  
+const DEFAULT_BLOCK_NAME = "sum3";
+
 function Flow() {
-  const [nodes, setNodes] = useState(initialNodes);
-  const [edges, setEdges] = useState(initialEdges);
+  const [blocks, setBlocks] = useState(initialBlocks);
+
+  // Node and edge change callbacks
+  const onNodesChange = useCallback(
+    (changes) => setBlocks((blocks_snapshot) => ({
+      ...blocks_snapshot, 
+      [DEFAULT_BLOCK_NAME]: {
+        ...blocks_snapshot[DEFAULT_BLOCK_NAME],
+        react_flow: {
+          ...blocks_snapshot[DEFAULT_BLOCK_NAME].react_flow,
+          initialNodes: applyNodeChanges(changes, blocks_snapshot[DEFAULT_BLOCK_NAME].react_flow.initialNodes)
+        }
+      }
+    })),
+    [],
+  );
+
+  const onEdgesChange = useCallback(
+    (changes) => setBlocks((blocks_snapshot) => ({
+      ...blocks_snapshot, 
+      [DEFAULT_BLOCK_NAME]: {
+        ...blocks_snapshot[DEFAULT_BLOCK_NAME],
+        react_flow: {
+          ...blocks_snapshot[DEFAULT_BLOCK_NAME].react_flow,
+          initialEdges: applyEdgeChanges(changes, blocks_snapshot[DEFAULT_BLOCK_NAME].react_flow.initialEdges)
+        }
+      }
+    })),
+    [],
+  );
+
+  const onConnect = useCallback(
+    (params) => setBlocks((blocks_snapshot) => ({
+      ...blocks_snapshot, 
+      [DEFAULT_BLOCK_NAME]: {
+        ...blocks_snapshot[DEFAULT_BLOCK_NAME],
+        react_flow: {
+          ...blocks_snapshot[DEFAULT_BLOCK_NAME].react_flow,
+          initialEdges: addEdge(params, blocks_snapshot[DEFAULT_BLOCK_NAME].react_flow.initialEdges)
+        }
+      }
+    })),
+    [],
+  );
  
   return (
     <div className= "parent-flex-box">
@@ -116,12 +160,16 @@ function Flow() {
         </div>
         <div className = "canvas">
           <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          nodeTypes={nodeTypes}
-          fitView
-          style={rfStyle}
-        />
+            nodes={blocks[DEFAULT_BLOCK_NAME].react_flow.initialNodes}
+            onNodesChange={onNodesChange}
+            edges={blocks[DEFAULT_BLOCK_NAME].react_flow.initialEdges}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            nodeTypes={nodeTypes}
+            deleteKeyCode={["Backspace", "Delete"]}
+            fitView
+            style={rfStyle}
+          />
         </div>
       </div>
     </div>
