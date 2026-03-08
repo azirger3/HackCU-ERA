@@ -7,7 +7,7 @@ export default function ListBlock({title, blocks}){
 
     return(
        <div className = "list-block-container">
-            <p>Test</p>
+            <p>{title}</p>
        </div> 
     );
 
