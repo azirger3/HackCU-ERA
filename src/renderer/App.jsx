@@ -253,20 +253,16 @@ function Flow() {
     <ReactFlowProvider>
       <div className= "parent-flex-box">
         <div className = "header-container">
-          <p>{activeBlock}</p>
+          <div></div>
+          <Button buttonText = "Run Main Block" className = "secondary-button"/>
         </div>
         <div className = "parent-grid-container">
           <div className = "side-panel">
             <Button onClick={openModal} className = "primary-button" buttonText = "New Code Block"/>
             <Button onClick={openNewComposite} className = "primary-button" buttonText = "New Composite Block"/>
-
-              <div className = "list-container">
-                <h3 className = "label-title">Input & Output</h3>
-                <div className = "io-row">
-                  <ListBlock block={{type: "input", name:"New Input"}} addNode={addNodeCounted} setActiveBlock={() => {}} setActiveCode={() => {}}/>
-                  <ListBlock block={{type: "output", name:"New Output"}} addNode={addNodeCounted} setActiveBlock={() => {}} setActiveCode={() => {}}/>
-                </div>
-              </div>
+            
+              <ListBlock block={{type: "input", name:"Input"}} addNode={addNodeCounted} setActiveBlock={() => {}}/>
+              <ListBlock block={{type: "output", name:"Output"}} addNode={addNodeCounted} setActiveBlock={() => {}}/>
 
               <div className = "list-container">
                 <h3 className = "label-title">Composite Blocks</h3>
@@ -284,6 +280,7 @@ function Flow() {
             <div className = "canvas">
               <GlobalBlocksContext.Provider value={{global_blocks: blocks, setGlobalBlocks: setBlocks, activeBlock: activeBlock, setActiveBlock: setActiveBlock, setActiveCode: setActiveCode}}>
                   <ReactFlow
+                    colorMode="dark"
                     nodes={blocks[activeBlock].react_flow.initialNodes}
                     onNodesChange={onNodesChange}
                     edges={blocks[activeBlock].react_flow.initialEdges}
@@ -294,7 +291,8 @@ function Flow() {
                     fitView
                     style={rfStyle}
                   >
-                    <Background bgColor="var(--background)" color="var(--brand-light)" variant={"dots"} gap={15} />
+                    <Background bgColor="var(--background)" color="var(--brand-dark)" variant={"dots"} gap={15} />
+                    <Panel position="top-center" className = "compose-title">{activeBlock}</Panel>
                   </ReactFlow>
               </GlobalBlocksContext.Provider>
             </div>
