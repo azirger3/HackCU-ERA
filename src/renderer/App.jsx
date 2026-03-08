@@ -146,6 +146,52 @@ function Flow() {
     })),
     [],
   );
+
+  const applyNewNode = (blocks, node) => ({
+    ...blocks,
+    [DEFAULT_BLOCK_NAME]: {
+      ...blocks[DEFAULT_BLOCK_NAME],
+      react_flow: {
+        ...blocks[DEFAULT_BLOCK_NAME].react_flow,
+        initialNodes: [
+          ...blocks[DEFAULT_BLOCK_NAME].react_flow.initialNodes,
+          node
+        ]
+      }
+    }
+  });
+
+  const addNode = (node) => {
+    setBlocks((blocks) => {
+      let new_blocks = applyNewNode(blocks, node);
+      for(let i = 0; i < new_blocks[DEFAULT_BLOCK_NAME].react_flow.initialNodes.length; i++) {
+        new_blocks[DEFAULT_BLOCK_NAME].react_flow.initialNodes[i].data.global_blocks = new_blocks;
+      }
+      return new_blocks;
+    });
+  };
+
+  const newInput = () => {
+    let id = `${blocks[DEFAULT_BLOCK_NAME].react_flow.initialNodes.length + 1}`;
+    const newNode = {
+      id: id,
+      type: "input",
+      position: { x: 200, y: 200 },
+      data: { label: `Input ${id}`, global_blocks: blocks },
+    };
+    addNode(newNode);
+  };
+
+  const newOutput = () => {
+    let id = `${blocks[DEFAULT_BLOCK_NAME].react_flow.initialNodes.length + 1}`;
+    const newNode = {
+      id: id,
+      type: "output",
+      position: { x: 200, y: 200 },
+      data: { label: `Output ${id}`, global_blocks: blocks },
+    };
+    addNode(newNode);
+  }
  
   return (
     <div className= "parent-flex-box">
@@ -157,6 +203,11 @@ function Flow() {
           <Button onClick = {() => {
             console.log("hi");
           }} className = "primary-button" buttonText = "hi"/>
+
+          <Button onClick={newInput} className = "primary-button" buttonText = "Add Input"/>
+
+          <Button onClick={newOutput} className = "primary-button" buttonText = "Add Output"/>
+
           {Object.entries(blocks).map(([title, block]) => 
             <ListBlock key={title} block={blocks[title]}/>
           )}

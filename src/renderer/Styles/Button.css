@@ -3,15 +3,23 @@
     justify-content:center;
     align-items:center;
     background-color: var(--brand-dark);
+    border: 1px solid var(--brand-dark);
     border-radius:100px;
     width:fit-content;
     min-width:80px;
+    width: 100%;
+    margin-bottom: 0.7em;
+
 }
 
 .primary-button p{
    color: var(--text-primary);
+   margin-block-start: 0.3em;
+   margin-block-end: 0.3em;
 }
 
 .primary-button:hover{
     background-color:#05495a;
+    cursor: pointer;
+    border: 1px solid var(--text-primary);
 }
