@@ -56,8 +56,8 @@ let composed_block = {
             },
         ],
         initialEdges: [
-            { id: 'edge-1', source: '12', target: '10', sourceHandle: 'a' },
-            { id: 'edge-2', source: '13', target: '10', sourceHandle: 'b' },
+            { id: 'edge-1', source: '12', target: '10', sourceHandle: 'a', targetHandle: 'c' },
+            { id: 'edge-2', source: '13', target: '10', sourceHandle: 'b', targetHandle: 'd' },
         ]
     }
 }
