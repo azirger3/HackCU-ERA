@@ -104,10 +104,10 @@ contextBridge.exposeInMainWorld('electron', electronHandler);
 
 contextBridge.exposeInMainWorld('env', {GEMINI_API_KEY: process.env.GEMINI_API_KEY});
 
-contextBridge.exposeInMainWorld('write_to_file', {saveFile: (file_name: string, content: string) => ipcRenderer.invoke('write-to-file', {file_name, content})});
+contextBridge.exposeInMainWorld('write_to_file', {saveFile: (file_name: string, content: string, overwrite: boolean) => ipcRenderer.invoke('write-to-file', {file_name, content, overwrite})});
 
 export interface WriteToFile {
-  saveFile: (file_name: string, content: string) => Promise<{
+  saveFile: (file_name: string, content: string, overwrite: boolean) => Promise<{
     success: boolean;
     error?: string;
   }>;

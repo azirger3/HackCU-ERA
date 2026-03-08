@@ -23,6 +23,7 @@ import getPromptFromCodeBlock from './API/GetPrompt';
 import WriteToFile from './API/WriteToFile';
 import ParseOutput from './API/ParseOutput';
 import RunTest from './Testing/RunTest';
+import GenerateAndTest from './API/GenerateAndTest';
 
 const rfStyle = {
   backgroundColor: '#B8CEFF',
@@ -52,7 +53,7 @@ let sum_block = {
       }
   ],
   ai_description: "output the sum of numbers a and b",
-  file: "/home/.....",
+  file: "",
   test_cases: [
       {
       inputs: "1,2",
@@ -303,5 +304,11 @@ console.log(ParseOutput(code_in));
 
 const test_result = await RunTest(`def sum(a,b):\n\treturn a+b\n`, sum_block);
 console.log(test_result);
+
+const text = window.env.TEST;
+console.log(text);
+
+const prompt_resp = await GenerateAndTest("sum", initialBlocks, true);
+console.log(prompt_resp);
 
 export default Flow;

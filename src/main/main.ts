@@ -22,12 +22,17 @@ require('dotenv').config();
 interface to_write {
   file_name: string;
   content: string;
+  overwrite: boolean;
 }
 
 ipcMain.handle('write-to-file', async (event, data: to_write) => {
   const file_path = path.join(app.getAppPath(), "out/", data.file_name);
   try {
-    fs.writeFileSync(file_path, data.content);
+    if (data.overwrite) {
+      fs.writeFileSync(file_path, data.content); // Overwrites
+    } else {
+      fs.appendFileSync(file_path, data.content); // Appends
+    }
     return { success: true };
   } catch (err) {
     return { success: false, error: (err as Error).message };
@@ -40,7 +45,6 @@ interface run_test {
 }
 
 ipcMain.handle('run-test', async (event, data: run_test) => {
-  console.log(data);
   const file_path = path.join(app.getAppPath(), "test/", `${data.file_name}.py`);
   fs.writeFileSync(file_path, data.file);
   return new Promise((resolve) => {
