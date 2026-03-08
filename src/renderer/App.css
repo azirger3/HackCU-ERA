@@ -1,13 +1,13 @@
 :root{
   --background: #111113;
   --foreground: #141416;
-  --brand-light: #4CCCE6;
-  --brand-dark: #065468;
+  --brand-light: #c6c6c6;
+  --brand-dark: #212225;
   --border-grey: #2E3135;
-  --code-background: #111B1F;
-  --code-outline: #13677E;
+  --code-background: #161107;
+  --code-outline: #8E6500;
   --composed-background: #141726;
-  --composed-outline: #1D2E62;
+  --composed-outline: #435DB1;
   --text-primary: #EDEEF0;
   --text-secondary: #AFB3BA;
 
@@ -120,4 +120,16 @@ body p, h1, h2, h3{
   display: block;
   color: #777;
   font-size: 12px;
+}
+
+.new-block-form{
+  background-color: var(--foreground);
+  border-radius:20px;
+  border: 2px solid var(--border-grey);
+  position: fixed;
+  top:100px;
+  bottom: 50px;
+  right: 300px;
+  left:300px;
+  padding: 20px 20px 20px 20px;
 }

@@ -1,9 +1,9 @@
 import "../Styles/Button.css"
-export default function Button({className, onClick, buttonText}){
+export default function Button({className, onClick, buttonText, type}){
 
     return(
-        <div className = {className} onClick = {onClick}>
+        <button className = {className} onClick = {onClick} type = {type}>
             <p>{buttonText}</p>
-        </div>
+        </button>
     );
 }

@@ -1,25 +1,30 @@
-.primary-button{
-    display:flex;
-    justify-content:center;
-    align-items:center;
+.primary-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: var(--brand-dark);
-    border: 1px solid var(--brand-dark);
-    border-radius:100px;
-    width:fit-content;
-    min-width:80px;
-    /* width: 100%; */
+    border-radius: 6px;
+    width: fit-content;
+    min-width: 80px;
     margin-bottom: 0.7em;
+    padding: 5px 15px;
+    border: 2px solid var(--border-grey);
 
 }
 
-.primary-button p{
-   color: var(--text-primary);
-   margin-block-start: 0.3em;
-   margin-block-end: 0.3em;
+.primary-button p {
+    margin-block-start: 0.4em;
+    margin-block-end: 0.4em;
+    font-weight: 500;
+    letter-spacing: 0.01em;
 }
 
-.primary-button:hover{
-    background-color:#05495a;
+.primary-button:hover {
     cursor: pointer;
-    border: 1px solid var(--text-primary);
+    background-color: var(--foreground);
+}
+
+
+.primary-button p {
+    font-size: var(--heading5);
 }

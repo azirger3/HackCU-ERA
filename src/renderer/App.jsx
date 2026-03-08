@@ -16,6 +16,8 @@ import InputNode from './components/Input';
 import OutputNode from './components/Output';
 import Button from './components/Button';
 import ListBlock from './components/ListBlock'
+import ReactDOM from 'react-dom';
+import Modal from 'react-modal';
  
 const rfStyle = {
   backgroundColor: '#B8CEFF',
@@ -198,7 +200,23 @@ function Flow() {
 
   const codeBlocksList = Object.entries(blocks).filter(([, block]) => block.type === 'code');
   const composedBlocksList = Object.entries(blocks).filter(([, block]) => block.type === 'composed');
-  
+
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function afterOpenModal() {
+    console.log("yay it works");
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+  function generateBlock() {
+    console.log("hello!");
+  }
  
   return (
     <ReactFlowProvider>
@@ -208,45 +226,59 @@ function Flow() {
         </div>
         <div className = "parent-grid-container">
           <div className = "side-panel">
-            <Button onClick = {() => {
-              console.log("hi");
-            }} className = "primary-button" buttonText = "hi"/>
+            <Button onClick={openModal} className = "primary-button" buttonText = "New Code Block"/>
 
-            <Button onClick={newInput} className = "primary-button" buttonText = "Add Input"/>
+              <Button onClick={newInput} className = "primary-button" buttonText = "Add Input"/>
 
-            <Button onClick={newOutput} className = "primary-button" buttonText = "Add Output"/>
+              <Button onClick={newOutput} className = "primary-button" buttonText = "Add Output"/>
 
-            <div className = "list-container">
-              <h3 className = "label-title">Compose Blocks</h3>
-              {composedBlocksList.map(([title, block]) => 
-                <ListBlock key={title} block={block} addNode={addNodeCounted}/>
-              )}
+              <div className = "list-container">
+                <h3 className = "label-title">Compose Blocks</h3>
+                {composedBlocksList.map(([title, block]) => 
+                  <ListBlock key={title} block={block} addNode={addNodeCounted}/>
+                )}
+              </div>
+              <div className = "list-container">
+                <h3 className = "label-title">Code Blocks</h3>
+                {codeBlocksList.map(([title, block]) => 
+                  <ListBlock key={title} block={block} addNode={addNodeCounted}/>
+                )}
+              </div>
             </div>
-            <div className = "list-container">
-              <h3 className = "label-title">Code Blocks</h3>
-              {codeBlocksList.map(([title, block]) => 
-                <ListBlock key={title} block={block} addNode={addNodeCounted}/>
-              )}
+            <div className = "canvas">
+              <GlobalBlocksContext.Provider value={blocks}>
+                  <ReactFlow
+                    nodes={blocks[DEFAULT_BLOCK_NAME].react_flow.initialNodes}
+                    onNodesChange={onNodesChange}
+                    edges={blocks[DEFAULT_BLOCK_NAME].react_flow.initialEdges}
+                    onEdgesChange={onEdgesChange}
+                    onConnect={onConnect}
+                    nodeTypes={nodeTypes}
+                    deleteKeyCode={["Backspace", "Delete"]}
+                    fitView
+                    style={rfStyle}
+                  >
+                    <Background bgColor="var(--background)" color="var(--brand-dark)" variant={"dots"} gap={15} />
+                  </ReactFlow>
+              </GlobalBlocksContext.Provider>
             </div>
           </div>
-          <div className = "canvas">
-            <GlobalBlocksContext.Provider value={blocks}>
-                <ReactFlow
-                  nodes={blocks[DEFAULT_BLOCK_NAME].react_flow.initialNodes}
-                  onNodesChange={onNodesChange}
-                  edges={blocks[DEFAULT_BLOCK_NAME].react_flow.initialEdges}
-                  onEdgesChange={onEdgesChange}
-                  onConnect={onConnect}
-                  nodeTypes={nodeTypes}
-                  deleteKeyCode={["Backspace", "Delete"]}
-                  fitView
-                  style={rfStyle}
-                >
-                  <Background bgColor="var(--background)" color="var(--brand-dark)" variant={"dots"} gap={15} />
-                </ReactFlow>
-            </GlobalBlocksContext.Provider>
-          </div>
-        </div>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="New Code Block"
+        className = "new-block-form"
+      >
+        <h2>New Code Block</h2>
+
+        <form onSubmit={(e) => {
+          e.preventDefault(); // prevents page reload
+          handleSubmit();
+        }}>
+          <Button type="submit" onClick = {generateBlock} className = "primary-button" buttonText = "Create"/>
+          <Button type="button" onClick={closeModal} className = "secondary-button" buttonText = "Cancel"/>
+        </form>
+      </Modal>
       </div>
     </ReactFlowProvider>
   );
